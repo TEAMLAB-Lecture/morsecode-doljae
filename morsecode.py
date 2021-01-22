@@ -35,23 +35,26 @@ def is_help_command(user_input):
         - 입력한 값이 대소문자 구분없이 "H" 또는 "HELP"일 경우 True,
           그렇지 않을 경우 False를 반환함
     Examples:
-        >>> import morsecode as mc
-        >>> mc.is_help_command("H")
-        True
-        >>> mc.is_help_command("Help")
-        True
-        >>> mc.is_help_command("Half")
-        False
-        >>> mc.is_help_command("HeLp")
-        True
-        >>> mc.is_help_command("HELLO")
-        False
-        >>> mc.is_help_command("E")
+        # >>> import morsecode as mc
+        # >>> mc.is_help_command("H")
+        # True
+        # >>> mc.is_help_command("Help")
+        # True
+        # >>> mc.is_help_command("Half")
+        # False
+        # >>> mc.is_help_command("HeLp")
+        # True
+        # >>> mc.is_help_command("HELLO")
+        # False
+        # >>> mc.is_help_command("E")
         False
     """
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
-    result = None
+    target = user_input.lower()
+    result = False
+    if target == "h" or target == "help":
+        result = True
 
     return result
     # ==================================
@@ -67,24 +70,40 @@ def is_validated_english_sentence(user_input):
           2) _@#$%^&*()-+=[]{}"';:\|`~ 와 같은 특수문자가 포함되어 있거나
           3) 문장부호(.,!?)를 제외하면 입력값이 없거나 빈칸만 입력했을 경우
     Examples:
-        >>> import morsecode as mc
-        >>> mc.is_validated_english_sentence("Hello 123")
-        False
-        >>> mc.is_validated_english_sentence("Hi!")
-        True
-        >>> mc.is_validated_english_sentence(".!.")
-        False
-        >>> mc.is_validated_english_sentence("!.!")
-        False
-        >>> mc.is_validated_english_sentence("kkkkk... ^^;")
-        False
-        >>> mc.is_validated_english_sentence("This is Gachon University.")
-        True
+        # >>> import morsecode as mc
+        # >>> mc.is_validated_english_sentence("Hello 123")
+        # False
+        # >>> mc.is_validated_english_sentence("Hi!")
+        # True
+        # >>> mc.is_validated_english_sentence(".!.")
+        # False
+        # >>> mc.is_validated_english_sentence("!.!")
+        # False
+        # >>> mc.is_validated_english_sentence("kkkkk... ^^;")
+        # False
+        # >>> mc.is_validated_english_sentence("This is Gachon University.")
+        # True
     """
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
-    result = None
-
+    """
+        - 입력한 값이 아래에 해당될 경우 False, 그렇지 않으면 True
+          1) 숫자가 포함되어 있거나,
+          2) _@#$%^&*()-+=[]{}"';:\|`~ 와 같은 특수문자가 포함되어 있거나
+          3) 문장부호(.,!?)를 제외하면 입력값이 없거나 빈칸만 입력했을 경우
+    """
+    result = False
+    user_input.replace(".", "").replace(",", "").replace("!", "").replace("?", "")
+    list1 = list("_@#$%^&*()-+=[]{}\"\';:\|`~")
+    list2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] + list1
+    # print(list2)
+    set1 = set(list2)
+    if len(user_input) != 0:
+        for char in user_input:
+            if char in set1:
+                break
+        else:
+            result = True
     return result
     # ==================================
 
@@ -118,7 +137,6 @@ def is_validated_morse_code(user_input):
 
     return result
     # ==================================
-
 
 
 def get_cleaned_english_sentence(raw_english_sentence):
@@ -261,11 +279,10 @@ def main():
     print("Morse Code Program!!")
     # ===Modify codes below=============
 
-
-
     # ==================================
     print("Good Bye")
     print("Morse Code Program Finished!!")
+
 
 if __name__ == "__main__":
     main()
